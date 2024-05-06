@@ -4,6 +4,40 @@ const FULL_HEART = '♥'
 
 // Your JavaScript code goes here!
 
+const hearts = document.querySelectorAll('.like-glyph')
+
+function likeArticle(e) {
+  const heart = e.target;
+  
+  mimicServerCall()
+
+    .then(function(serverMessage) {
+      alert(serverMessage);
+      if (heart.innerHTML === EMPTY_HEART) {
+      heart.innerHTML = FULL_HEART;
+      heart.classList.add('activated-heart');
+    } else if (heart.innerHTML === FULL_HEART) {
+      heart.innerHTML = EMPTY_HEART;
+      heart.classList.remove('activated-heart');
+    }
+  })
+
+    .catch(function(serverMessage) {
+      if (serverMessage) {
+        document.getElementById('modal').classList.remove('hidden');
+        document.getElementById('modal-message').innerHTML = serverMessage;
+        setTimeout(function() {
+          document.getElementById('modal').classList.add('hidden');
+        }, 3000);
+      }
+    })
+}
+
+for (const glyph of hearts) {
+  glyph.addEventListener('click', likeArticle)
+}
+
+
 
 
 
